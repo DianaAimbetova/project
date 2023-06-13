@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2 style="background-color: aqua;">
+        About
+    </h2>
+    <p style="background-color: aquamarine;">
+        {{about}}
+    </p>
+    {% load static %}
+    <img src="{% static 'test.png' %}">
+    {% endblock %}
