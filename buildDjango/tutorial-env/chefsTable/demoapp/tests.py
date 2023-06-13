@@ -5,7 +5,7 @@ from .models import Reservation
 
 # Create your tests here.
 class ReservationModuleTest(TestCase):
-
+    @classmethod
     def setUpTestData(cls):
         cls.reservation = Reservation.objects.create(
             first_name = "John",

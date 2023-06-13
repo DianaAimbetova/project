@@ -80,3 +80,17 @@ def menu_by_id(request):
     newmenu = MyMenu.objects.all()
     newmenu_dict = {'menu' : newmenu}
     return render(request, 'menu_card.html', newmenu_dict)
+
+
+from django.views import View   
+class NewView(View):   
+    def get(self, request):   
+        # View logic will place here   
+        return HttpResponse('response') 
+    
+from django.views.generic.edit import CreateView   
+from .models import Employee
+class EmployeeCreate(CreateView):   
+    model = Employee    
+    fields = '__all__' 
+    success_url = "/employees/success/" 
