@@ -19,7 +19,7 @@ path('', views.dashboard, name='dashboard'),
 path('register/', views.register, name='register'),
 path('edit/', views.edit, name='edit'),
 path('social-auth/', include('social_django.urls', namespace='social')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
