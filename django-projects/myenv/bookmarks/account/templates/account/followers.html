@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}People{% endblock %}
+{% block content %}
+ <h1>People</h1>
+ <div id="people-list">
+{% if followers|length > 0 %}
+ {% for user in followers %}
+ <div class="user">
+ <a href="{{ user.get_absolute_url }}">
+ <img src="{% thumbnail user.profile.photo 180x180 %}">
+ </a>
+ <div class="info">
+ <a href="{{ user.get_absolute_url }}" class="title">
+ {{ user.get_full_name }}
+ </a>
+ </div>
+ </div>
+ {% endfor %}
+ {% else %}
+ <p>You don't have followers yet</p>
+ {% endif %}
+ </div>
+{% endblock %}
