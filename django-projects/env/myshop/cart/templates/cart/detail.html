@@ -1,0 +1,159 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}
+  Your shopping cart
+{% endblock %}
+
+{% block content %}
+  <h1>Your shopping cart</h1>
+  <table class="cart">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Remove</th>
+        <th>Unit price</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart %}
+        {% with product=item.product %}
+          <tr>
+            <td>
+              <a href="{{ product.get_absolute_url }}">
+                <img src="{% if product.image %}{{ product.image.url }}
+                {% else %}{% static 'img/no_image.png' %}{% endif %}">
+              </a>
+            </td>
+            <td>{{ product.name }}</td>
+            <td>
+              <!-- <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                {{ item.update_quantity_form.quantity }}
+                {{ item.update_quantity_form.override }}
+                <input type="submit" value="Update">
+                {% csrf_token %}
+              </form> -->
+              <a href="#" data-id="{{ product.id }}" data-action="plus" data-quantity=" {{item.quantity}}"  class="plus button ">
+                + </a>
+                <span class="quantity{{ product.id }}">
+                {{ item.quantity }}
+                </span>
+                <a href="#" data-id="{{ product.id }}" data-action="minus" data-quantity=" {{item.quantity}}" class="minus button">
+                    - </a>
+            </td>
+            <td>
+              <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+                <input type="submit" value="Remove">
+                {% csrf_token %}
+              </form>
+            </td>
+            <td class="num">$<span class="price{{ product.id }}">{{ item.price }}</span></td>
+            <td class="num">$<span class="total_price{{ product.id }}">{{ item.total_price }}</span></td>
+          </tr>
+        {% endwith %}
+      {% endfor %}
+      <tr class="total">
+        <td>Total</td>
+        <td colspan="4"></td>
+        <td class="num">$<span class="final_price">{{ cart.get_total_price }}</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="text-right">
+    <a href="{% url 'shop:product_list' %}" class="button
+    light">Continue shopping</a>
+    <a href="{% url 'orders:order_create' %}" class="button">Checkout</a>
+  </p>
+{% endblock %}
+{% block domready %}
+ const url = '{% url "cart:update" %}';
+ var options = {
+ method: 'POST',
+ headers: {'X-CSRFToken': csrftoken},
+ mode: 'same-origin'
+ }
+ const items = document.querySelectorAll('a.plus')
+
+ items.forEach((item) => {
+    var clicks = 0; 
+    item.addEventListener('click', function(e){
+ e.preventDefault();
+ ++clicks;
+ var likeButton = this;
+ // add request body
+ var formData = new FormData();
+ formData.append('id', likeButton.dataset.id);
+ formData.append('action', likeButton.dataset.action);
+ formData.append('quantity', likeButton.dataset.quantity);
+ formData.append('clicks', clicks);
+ options['body'] = formData;
+ // send HTTP request
+
+ fetch(url, options)
+ .then(response => response.json())
+ .then(data => {
+ if (data['status'] === 'ok')
+ {
+    var previousAction = likeButton.dataset.action;
+ // update quantity count
+ var quantityCount = document.querySelector('span.quantity'.concat(likeButton.dataset.id));
+ var totalQuantity = parseInt(quantityCount.innerHTML);
+ quantityCount.innerHTML = previousAction === 'plus' ? totalQuantity + 1 : totalQuantity - 1;
+ // update total price
+ var totalQuantity = parseInt(quantityCount.innerHTML);
+ var price =  document.querySelector('span.price'.concat(likeButton.dataset.id));
+ var totalPrice = document.querySelector('span.total_price'.concat(likeButton.dataset.id));
+ var finalPrice = parseFloat(price.innerHTML);
+ totalPrice.innerHTML = totalQuantity*finalPrice;
+ //add final total price
+ var finalPriceElement = document.querySelector('span.final_price');
+ finalPriceValue =  parseFloat(finalPriceElement.innerHTML) + parseFloat(price.innerHTML)
+ finalPriceElement.innerHTML = finalPriceValue
+ }
+ })
+ });
+});
+
+const items2 = document.querySelectorAll('a.minus')
+items2.forEach((item2) => {
+    var clicks = 0;
+    item2.addEventListener('click', function(e){
+    e.preventDefault();
+    ++clicks;
+    var likeButton = this;
+    // add request body
+    var formData = new FormData();
+    formData.append('id', likeButton.dataset.id);
+    formData.append('action', likeButton.dataset.action);
+    formData.append('quantity', likeButton.dataset.quantity);
+    formData.append('clicks', clicks);
+    options['body'] = formData;
+    // send HTTP request
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+    if (data['status'] === 'ok')
+    {
+       var previousAction = likeButton.dataset.action;
+    // update quantity count
+    var quantityCount = document.querySelector('span.quantity'.concat(likeButton.dataset.id));
+    var totalQuantity = parseInt(quantityCount.innerHTML);
+    quantityCount.innerHTML = previousAction === 'plus' ? totalQuantity + 1 : totalQuantity - 1;
+    // update total price
+    var totalQuantity = parseInt(quantityCount.innerHTML);
+    var price =  document.querySelector('span.price'.concat(likeButton.dataset.id));
+    var totalPrice = document.querySelector('span.total_price'.concat(likeButton.dataset.id));
+    var finalPrice = parseFloat(price.innerHTML);
+    totalPrice.innerHTML = parseFloat(totalQuantity*finalPrice);
+    //add final total price
+    var finalPriceElement = document.querySelector('span.final_price');
+    finalPriceValue =  parseFloat(finalPriceElement.innerHTML) - parseFloat(price.innerHTML)
+    finalPriceElement.innerHTML = finalPriceValue
+    }
+    })
+    });
+});
+{% endblock %}
