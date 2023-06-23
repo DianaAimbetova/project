@@ -292,7 +292,7 @@ ul.errorlist {
 }
 
 .recommendations img {
-    width:200px
+    width:200px;
 }
 
 .recommendations p {
@@ -315,6 +315,10 @@ ul.errorlist {
 
 .recommendations.cart img {
     width:120px;
+}
+
+.coupon  {
+    float:right;
 }
 
 /* braintree hosted fields */

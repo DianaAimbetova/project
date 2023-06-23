@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'shop.apps.ShopConfig',
     'orders.apps.OrdersConfig',
+    'payment.apps.PaymentConfig',
+    'coupons.apps.CouponsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -130,10 +132,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
+# STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATICFILES_DIRS =[
     os.path.join(BASE_DIR,'myshop/static')
 ]
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -143,3 +146,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INTERNAL_IPS = [
  '127.0.0.1',
 ] 
+
+# Email settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'lp.diana92@gmail.com'
+EMAIL_HOST_PASSWORD = 'ugczdhpkfrugcnxs'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# Stripe settings
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51NLMplEBghSvN0ONnhsqn27ZxRkzAFltiodv3YmP113cNaNaeASbOOlxgSNoDEbdHuwVC3V04BwzVS0QPMLGQvK600lIrJoXNy' # Publishable key
+STRIPE_SECRET_KEY = 'sk_test_51NLMplEBghSvN0ONB49BQmNhy7sFjtm4sJACJaXXwudWWXT826OnhOibIsdLluRLn3crC41uO65kUforSpU2n0Y900O3Tdaqza' # Secret key
+STRIPE_API_VERSION = '2022-08-01'
+STRIPE_WEBHOOK_SECRET = 'whsec_33c40b3f2a889e9c7ef57006535f6521e71bc73ac9bd17ac7047be7a72403e0f'
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 1

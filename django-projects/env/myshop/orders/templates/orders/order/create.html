@@ -4,6 +4,9 @@
 {% endblock %}
 {% block content %}
  <h1>Checkout</h1>
+ {% if error_message %}
+ <span class="neg" style="margin-right:1050px;">{{ error_message}}</span>
+ {% endif %}
  <div class="order-info">
  <h3>Your order</h3>
  <ul>
@@ -13,8 +16,16 @@
  <span>${{ item.total_price }}</span>
  </li>
  {% endfor %}
- </ul>
- <p>Total: ${{ cart.get_total_price }}</p>
+ {% if cart.coupon and not error_message %}
+ <li>
+ "{{ cart.coupon.code }}" ({{ cart.coupon.discount }}% off)
+ <span class="neg">- ${{ cart.get_discount|floatformat:2 }}</span>
+ </li>
+</ul>
+  <p>Total: ${{ cart.get_total_price_after_discount|floatformat:2 }}</p>
+{% else %}
+ <p>Total: ${{ cart.get_total_price|floatformat:2 }}</p>
+ {% endif %}
  </div>
  <form method="post" class="order-form">
  {{ form.as_p }}
