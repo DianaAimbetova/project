@@ -1,0 +1,24 @@
+1.vat не тегаем для США и Канады
+2. Адрес берем весь блок и убираем емейл
+3. Все поля увеличием зону теггинга
+4. Орг должно быть точным
+5. billing contact account payable
+6. 7 обяз полей адрес орг город страна кастомер продукт в таблице
+7. units price po total
+8. билл емейл должен быть общим не человеку а организации
+
+
+Вопросы:
+1. vwr group 37 billing org VWR_PO_4509426032.pdf first 2
+2. vwr group 37  size VWR_PO_4510295778.pdf last 1
+3. vwr group 38 PO number regex
+4. vwr group 38 no full name?
+5. vwr group 38 postcode specific regex
+6. vwr group 38 billing county if empty left it as is?
+7. vwr group 38 billing postcode specific regex
+8. vwr billing group 38 country
+9. vwr group 38 payable to abcam label
+10. vwr 38 end of table last one GBP
+11. vwr 37 table values last 1 is empty
+12. vwr 38 shipping contact 4511947488.pdf first 2
+13. vwr 38 first 2 no billing email
