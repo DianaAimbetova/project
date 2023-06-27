@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'courses.apps.CoursesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,6 +44,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'redisboard',
     'rest_framework',
+    'chat',
+    'channels',
 ]
 
 REST_FRAMEWORK = {
@@ -163,4 +166,15 @@ CACHE_MIDDLEWARE_KEY_PREFIX = 'educa'
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+ASGI_APPLICATION = 'educa.asgi.application'
+
+CHANNEL_LAYERS = {
+ 'default': {
+ 'BACKEND': 'channels_redis.core.RedisChannelLayer',
+ 'CONFIG': {
+ 'hosts': [('127.0.0.1', 6379)],
+ },
+ },
+}
 
